@@ -46,9 +46,9 @@ jobs:
           c:\msys64\usr\bin\bash -l -c "ls -l"
           c:\msys64\usr\bin\bash -l -c "echo $(pwd)"
           echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
-      - name: Test Scheme
-        run: |
-          scheme --version
+#      - name: Test Scheme
+#        run: |
+#          scheme --version
       - name: Checkout
         uses: actions/checkout@v2
       - name: Get Idris 2
