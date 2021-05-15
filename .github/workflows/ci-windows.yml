@@ -7,7 +7,7 @@ on:
       - '*'
   pull_request:
     branches:
-      - master
+      - main
   workflow_dispatch:
     inputs:
       name:
@@ -43,6 +43,7 @@ jobs:
         run: |
           $chez="$(pwd)\ChezScheme\ta6nt\bin\ta6nt"
           $idris="$(pwd)\Idris2\.idris2"
+          $idirs2lsp="$(pwd)\idris2-lsp"
           $output="$(pwd)\output"
           echo "::add-path::$chez"
           echo "::add-path::$idris\bin"
@@ -53,6 +54,13 @@ jobs:
           scheme --version
       - name: Bootstrap and install
         run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && make bootstrap && make install"
+      - name: Stage2 build and install
+        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && make cleandist && make all && make install && make install-api"
+      - name: Get dris2-lsp
+        run: git clone --depth 1 https://github.com/idris-community/idris2-lsp
+      - name: Build dris2-lsp
+#        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lsp && make"
+        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lsp && make"
       - name: Prepare the data to compression
         run: |
           New-Item -ItemType directory -Name output/idris2-windows-nightly/chez
@@ -62,6 +70,7 @@ jobs:
           Move-Item -Path ChezScheme/ta6nt/boot output/idris2-windows-nightly/chez
           Move-Item -Path Idris2/.idris2 output/idris2-windows-nightly/idris2
           Move-Item -Path Idris2/bootstrap output/idris2-windows-nightly/idris2
+          Move-Item -Path idris2-lsp output/idris2-windows-nightly/idris2-lsp
           Compress-Archive -Path output/idris2-windows-nightly -DestinationPath output/idris2-windows-nightly.zip
       - name: Create Release
         id: create_release
@@ -74,7 +83,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        id: upload-release-asset 
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
