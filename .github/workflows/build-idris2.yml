@@ -42,8 +42,8 @@ jobs:
           c:\msys64\usr\bin\bash -l -c "echo $PATH"
           c:\msys64\usr\bin\bash -l -c "pacman -S --noconfirm tar make zip curl unzip"
           c:\msys64\usr\bin\bash -l -c "curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip"
-	  c:\msys64\usr\bin\bash -l -c "unzip chez.zip"
-	  c:\msys64\usr\bin\bash -l -c "ls -l"
+          c:\msys64\usr\bin\bash -l -c "unzip chez.zip"
+          c:\msys64\usr\bin\bash -l -c "ls -l"
           c:\msys64\usr\bin\bash -l -c "echo $(pwd)"
           echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
       - name: Test Scheme
