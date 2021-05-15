@@ -29,7 +29,7 @@ jobs:
           git config --global core.autocrlf false
       - name: Set Path
         run: |
-          $chez="$(pwd)\chez-nightly\chez\ta6nt\bin\ta6nt"
+          $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
           $idris="$(pwd)\Idris2\.idris2"
           $idirs2lsp="$(pwd)\idris2-lsp"
           $output="$(pwd)\output"
@@ -39,16 +39,17 @@ jobs:
           echo "::set-env name=PREFIX::$(c:\msys64\usr\bin\cygpath -u $idris)"
       - name: Get Chez Scheme
         run: |
-          c:\msys64\usr\bin\bash -l -c "echo $PATH"
-          c:\msys64\usr\bin\bash -l -c "pacman -S --noconfirm tar make zip curl unzip"
+#          c:\msys64\usr\bin\bash -l -c "pacman -S --noconfirm tar make zip curl unzip"
           c:\msys64\usr\bin\bash -l -c "curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip"
           c:\msys64\usr\bin\bash -l -c "unzip chez.zip"
           c:\msys64\usr\bin\bash -l -c "ls -l"
           c:\msys64\usr\bin\bash -l -c "echo $(pwd)"
+          c:\msys64\usr\bin\bash -l -c "echo $(PATH)"
           echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
-#      - name: Test Scheme
-#        run: |
-#          scheme --version
+      - name: Test Scheme
+        run: |
+          c:\msys64\usr\bin\bash -l -c "$chez/scheme --version"
+          scheme --version
       - name: Checkout
         uses: actions/checkout@v2
       - name: Get Idris 2
