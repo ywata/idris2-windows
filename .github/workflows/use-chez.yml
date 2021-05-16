@@ -1,0 +1,43 @@
+name: Windows
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Manually trigger build of Idris 2.'
+        required: true
+env:
+  MSYSTEM: MINGW64
+  MSYS2_PATH_TYPE: inherit
+  SCHEME: scheme
+  CC: gcc
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Init
+        run: |
+          git config --global core.autocrlf false
+      - name: Get Chez Scheme
+        run: |
+          echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
+          c:\msys64\usr\bin\bash -l -c "cd $env:PWD && curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip && unzip chez.zip"
+      - name: Set Path
+        run: |
+          $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
+          $output="$(pwd)\output"
+          echo "::add-path::$chez"
+      - name: Test Scheme
+        run: |
+          c:\msys64\usr\bin\bash -l -c "scheme --version"
+          scheme --version
+
