@@ -38,9 +38,10 @@ jobs:
           curl --version
       - name: Set Path
         run: |
-          chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
-          output="$(pwd)\output"
+          chez="$(pwd)/chez-nightly/chez/bin/ta6nt"
+          output="$(pwd)/output"
           echo "$chez $output"
+          echo "$chez" >> $GITHUB_PATH
       - name: Test Scheme
         run: |
             scheme --version
