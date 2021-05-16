@@ -52,6 +52,7 @@ jobs:
       - name: Bootstrap Idris2
         run: |
           cd idris2-lsp/Idris2 && make bootstrap && make install
+          find . -name "idris2*"
       - name: Stage2 Idris2
         run: |
           cd idris2-lsp/Idris2 && make distclean && make all & make install && make install-api
