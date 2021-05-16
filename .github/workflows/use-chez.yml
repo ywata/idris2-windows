@@ -39,6 +39,6 @@ jobs:
           echo "$(pwd)\chez-nightly\chez\bin\ta6nt" >> $GITHUB_PATH
       - name: Test Scheme
         run: |
-          c:\msys64\usr\bin\bash -l -c "scheme --version"
+          c:\msys64\usr\bin\bash -l -c "$PATH"
           scheme --version
 
