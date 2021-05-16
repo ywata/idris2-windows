@@ -38,5 +38,5 @@ jobs:
           echo "::add-path::$chez"	  
       - name: Test Scheme
         run: |
-          c:\msys64\usr\bin\bash -l -c "scheme -v"
+          c:\msys64\usr\bin\bash -l -c "$PATH"
 
