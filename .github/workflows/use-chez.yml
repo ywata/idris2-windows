@@ -39,6 +39,7 @@ jobs:
           c:\msys64\usr\bin\bash -l -c "cd $env:PWD && curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip && unzip chez.zip"        
           $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
           $output="$(pwd)\output"
+          echo $chez >> $env:GITHUB_PATH
           echo "::add-path::$chez"	  
       - name: Test Scheme
         run: |
