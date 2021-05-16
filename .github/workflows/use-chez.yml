@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
           c:\msys64\usr\bin\bash -l -c "cd $env:PWD && curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip && unzip chez.zip"
-          echo "::set-env name=CHEZ::$(c:\msys64\user\bin\cygpath -u $(pwd)\chez-nightly\chez\bin\ta6nt))"
+          echo "::set-env name=CHEZ::$(c:\msys64\usr\bin\cygpath -u $(pwd)\chez-nightly\chez\bin\ta6nt))"
       - name: Set Path
         run: |
           $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
