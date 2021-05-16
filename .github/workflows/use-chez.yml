@@ -33,16 +33,14 @@ jobs:
           git config --global core.autocrlf false
       - name: Get Chez Scheme
         run: |
-          echo "$(pwd)"
-          echo $pwd
-          curl --version
-      - name: Set Path
+          curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip 
+          unzip chez.zip
+      - name: Set Chez Path
         run: |
           chez="$(pwd)/chez-nightly/chez/bin/ta6nt"
           output="$(pwd)/output"
+          echo "$chez"
           echo "$chez" >> $GITHUB_PATH
-          echo "$PATH"
-          echo "$GITHUB_PATH"
       - name: Test Scheme
         run: |
             scheme --version
