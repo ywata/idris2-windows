@@ -13,6 +13,10 @@ on:
       name:
         description: 'Manually trigger build of Idris 2.'
         required: true
+defaults:
+  run:
+    shell: bash
+
 env:
   MSYSTEM: MINGW64
   MSYS2_PATH_TYPE: inherit
@@ -27,20 +31,17 @@ jobs:
       - name: Init
         run: |
           git config --global core.autocrlf false
-      - name: Checkout
-        uses: actions/checkout@v2          
-#      - name: Get Chez Scheme
-#        run: |
-#          echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
-#          c:\msys64\usr\bin\bash -l -c "cd $env:PWD && curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip && unzip chez.zip"
+      - name: Get Chez Scheme
+        run: |
+          echo "$(pwd)"
+          echo $pwd
+          curl --version
       - name: Set Path
         run: |
-          echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
-          c:\msys64\usr\bin\bash -l -c "cd $env:PWD && curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip && unzip chez.zip"        
-          $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
-          $output="$(pwd)\output"
-          echo $chez >> $env:GITHUB_PATH	  
+          chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
+          output="$(pwd)\output"
+          echo "$chez $output"
       - name: Test Scheme
         run: |
-          c:\msys64\usr\bin\bash -l -c "scheme --version"
+            scheme --version
 
