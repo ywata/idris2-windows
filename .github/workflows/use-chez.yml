@@ -40,7 +40,7 @@ jobs:
           $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
           $output="$(pwd)\output"
           echo "::add-path::$chez"	  
-          echo "$env:PWD" + "/chez-nightly/chez/bin/ta6nt" >> $GITHUB_PATH
+          echo "$(pwd)" + "\chez-nightly\chez\bin\ta6nt" >> $GITHUB_PATH
 
       - name: Test Scheme
         run: |
