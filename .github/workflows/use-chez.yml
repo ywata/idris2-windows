@@ -40,8 +40,9 @@ jobs:
         run: |
           chez="$(pwd)/chez-nightly/chez/bin/ta6nt"
           output="$(pwd)/output"
-          echo "$chez $output"
           echo "$chez" >> $GITHUB_PATH
+          echo "$PATH"
+          echo "$GITHUB_PATH"
       - name: Test Scheme
         run: |
             scheme --version
