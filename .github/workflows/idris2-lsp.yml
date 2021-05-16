@@ -49,4 +49,9 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/idris-community/idris2-lsp
           (cd idris2-lsp/Idris2 && git submodule init && git submodule update)
-          find . -name "*.idr"
+      - name: Bootstrap Idris2
+        run: |
+          cd idris2-lsp/Idris2 && make bootstrap && make install
+      - name: Stage2 Idris2
+        run: |
+          cd idris2-lsp/Idris2 && make distclean && make all & make install && make install-api
