@@ -37,6 +37,7 @@ jobs:
           echo "::add-path::$idris\bin"
           echo "::set-env name=IDRIS_PREFIX::$idris"
           echo "::set-env name=PREFIX::$(c:\msys64\usr\bin\cygpath -u $idris)"
+          $env::Path
       - name: Get Chez Scheme
         run: |
           c:\msys64\usr\bin\bash -l -c "curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip"
