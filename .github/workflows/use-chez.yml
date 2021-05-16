@@ -39,6 +39,6 @@ jobs:
           echo "$chez" >> $GITHUB_PATH
       - name: Test Scheme
         run: |
-          c:\msys64\usr\bin\bash -l -c "$env:CHEZ/scheme --version"
+          c:\msys64\usr\bin\bash -l -c "scheme --version"
           scheme --version
 
