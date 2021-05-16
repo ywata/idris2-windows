@@ -41,7 +41,7 @@ jobs:
         run: |
           chez="$(pwd)/chez-nightly/chez/bin/ta6nt"
           output="$(pwd)/output"
-          echo "$chez" >> $GITHUB_PATH
+          echo $chez >> $GITHUB_PATH
       - name: Test Scheme
         run: |
             scheme --version
@@ -51,8 +51,10 @@ jobs:
           (cd idris2-lsp/Idris2 && git submodule init && git submodule update)
       - name: Bootstrap Idris2
         run: |
+          export PREFIX=$HOME/.idris2
           cd idris2-lsp/Idris2 && make bootstrap SCHEME=scheme && make install
           find . -name "idris2*"
       - name: Stage2 Idris2
         run: |
+          echo "$PREFIX/bin" >> $GITHUB_PATH
           cd idris2-lsp/Idris2 && make distclean && make all & make install && make install-api
