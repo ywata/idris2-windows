@@ -43,7 +43,6 @@ jobs:
           c:\msys64\usr\bin\bash -l -c "unzip chez.zip"
           c:\msys64\usr\bin\bash -l -c "ls -l"
           c:\msys64\usr\bin\bash -l -c "echo $(pwd)"
-          c:\msys64\usr\bin\bash -l -c "echo $(PATH)"
           echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
       - name: Test Scheme
         run: |
