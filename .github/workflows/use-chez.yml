@@ -38,6 +38,7 @@ jobs:
           $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
           $output="$(pwd)\output"
           echo "::add-path::$chez"	  
+          c:\msys64\user\bin\bash -l -c "ls -l $chez/scheme*"
       - name: Test Scheme
         run: |
           c:\msys64\usr\bin\bash -l -c "scheme -v"
