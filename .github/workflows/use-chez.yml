@@ -27,6 +27,8 @@ jobs:
       - name: Init
         run: |
           git config --global core.autocrlf false
+      - name: Checkout
+        uses: actions/checkout@v2          
       - name: Get Chez Scheme
         run: |
           echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
