@@ -39,6 +39,7 @@ jobs:
           $output="$(pwd)\output"
           echo "::add-path::$chez"	  
           c:\msys64\usr\bin\bash -l -c "ls -l $(pwd)"
+          c:\msys64\usr\bin\bash -l -c "ls -l $env:PWD"
           c:\msys64\usr\bin\bash -l -c "ls -l /d/a/idris2-windows/"
           c:\msys64\usr\bin\bash -l -c "ls -l /d/a/idris2-windows/chez-nightly/"
           c:\msys64\usr\bin\bash -l -c "ls -l /d/a/idris2-windows/chez-nightly/chez/"
