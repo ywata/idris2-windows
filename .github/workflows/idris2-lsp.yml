@@ -51,7 +51,7 @@ jobs:
           (cd idris2-lsp/Idris2 && git submodule init && git submodule update)
       - name: Bootstrap Idris2
         run: |
-          cd idris2-lsp/Idris2 && make bootstrap && make install
+          cd idris2-lsp/Idris2 && make bootstrap SCHEME=scheme && make install
           find . -name "idris2*"
       - name: Stage2 Idris2
         run: |
