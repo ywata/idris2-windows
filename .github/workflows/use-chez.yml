@@ -38,6 +38,6 @@ jobs:
           echo "::add-path::$chez"
       - name: Test Scheme
         run: |
-          c:\msys64\usr\bin\bash -l -c "$env::PWD/scheme --version"
+          c:\msys64\usr\bin\bash -l -c "$env:PWD/scheme --version"
           scheme --version
 
