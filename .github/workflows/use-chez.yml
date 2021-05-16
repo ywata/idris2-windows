@@ -36,7 +36,7 @@ jobs:
       - name: Set Path
         run: |
           $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
-          echo "::set-env name=CHEZ::$(c:\msys64\usr\bin\cygpath -u $chez)"
+          echo "::set-env name=CHEZ::$(c:\msys64\usr\bin\cygpath -u $(chez))"
           $output="$(pwd)\output"
           echo "::add-path::$chez"	  
           c:\msys64\usr\bin\bash -l -c "ls -l $env:CHEZ/scheme*"
