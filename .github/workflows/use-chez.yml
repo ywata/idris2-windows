@@ -41,12 +41,8 @@ jobs:
           $output="$(pwd)\output"
           echo "::add-path::$chez"	  
 
-          c:\msys64\usr\bin\bash -l -c "ls -l $env:PWD/chez-nightly"
-          c:\msys64\usr\bin\bash -l -c "ls -l $env:PWD/chez-nightly/chez"
-          c:\msys64\usr\bin\bash -l -c "ls -l $env:PWD/chez-nightly/chez/bin"
-          c:\msys64\usr\bin\bash -l -c "ls -l $env:PWD/chez-nightly/chez/bin/ta6nt"
+          c:\msys64\usr\bin\bash -l -c "ls -l $($env:PWD)/chez-nightly"
           c:\msys64\usr\bin\bash -l -c "ls -l /d/a/idris2-windows/"
-          c:\msys64\usr\bin\bash -l -c "$env:PWD/chez-nightly/chez/bin/ta6nt/scheme -v"
       - name: Test Scheme
         run: |
           c:\msys64\usr\bin\bash -l -c "scheme -v"
