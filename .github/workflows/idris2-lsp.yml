@@ -53,7 +53,7 @@ jobs:
       - name: Bootstrap Idris2
         run: |
           export SHELL=/usr/bin/bash
-          cd idris2-lsp/Idris2 && make bootstrap SCHEME=scheme && make install
+          cd idris2-lsp/Idris2 && make bootstrap SCHEME=scheme && make install && make install-api
 
 
 
