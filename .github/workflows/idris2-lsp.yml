@@ -52,9 +52,10 @@ jobs:
           (cd idris2-lsp/Idris2 && git submodule init && git submodule update)
       - name: Bootstrap Idris2
         run: |
-          SHELL=/usr/bin/bash
+          export SHELL=/usr/bin/bash
           cd idris2-lsp/Idris2 && make bootstrap SCHEME=scheme && make install
       - name: Stage2 Idris2
         run: |
+          export SHELL=/usr/bin/bash
           cd idris2-lsp/Idris2 && make distclean
           cd idris2-lsp/Idris2 && make all && make install && make install-api
