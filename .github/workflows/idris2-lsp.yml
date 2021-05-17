@@ -54,11 +54,7 @@ jobs:
         run: |
           SHELL=/usr/bin/bash
           cd idris2-lsp/Idris2 && make bootstrap SCHEME=scheme && make install
-          find . -name "idris2*"
       - name: Stage2 Idris2
         run: |
           cd idris2-lsp/Idris2 && make distclean
-          ls $PREFIX/bin
-          echo $PWD
-          echo "$PREFIX/bin" >> $GITHUB_PATH
           cd idris2-lsp/Idris2 && make all && make install && make install-api
