@@ -13,9 +13,6 @@ on:
       name:
         description: 'Manually trigger build of Idris 2.'
         required: true
-defaults:
-  run:
-    shell: bash
 
 env:
   MSYSTEM: MINGW64
@@ -37,10 +34,9 @@ jobs:
           unzip chez.zip
       - name: Set Chez Path
         run: |
-          chez="$(pwd)/chez-nightly/chez/bin/ta6nt"
+          chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
           output="$(pwd)/output"
-          echo "$chez"
-          echo "$chez" >> $GITHUB_PATH
+          echo "::add-path::$chez"
       - name: Test Scheme
         run: |
             scheme --version
