@@ -73,16 +73,24 @@ jobs:
           Move-Item -Path Idris2/bootstrap output/idris2-windows-nightly/idris2
           Move-Item -Path idris2-lsp output/idris2-windows-nightly/idris2-lsp
           Compress-Archive -Path output/idris2-windows-nightly -DestinationPath output/idris2-windows-nightly.zip
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Test with environment variables
+        run: echo $TAG_NAME - $RELEASE_NAME
+        env:
+          TAG_NAME: nightly-tag-${{ steps.date.outputs.date }}
+          RELEASE_NAME: nightly-release-${{ steps.date.outputs.date }}          
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+#        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Release ${{ github.ref }}
+#          draft: false
+#          prerelease: false
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
