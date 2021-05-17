@@ -53,7 +53,7 @@ jobs:
           scheme --version
 
       - name: Bootstrap and install
-        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && make bootstrap && make install"
+        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && make bootstrap && make install && make install-api"
 #      - name: Stage2 build and install
 #        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && make distclean && make all && make install && make install-api"
       - name: Get dris2-lsp
