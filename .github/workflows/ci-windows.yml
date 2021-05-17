@@ -31,20 +31,19 @@ jobs:
         uses: actions/checkout@v2
       - name: Get Idris 2
         run: git clone --depth 1 https://github.com/idris-lang/Idris2
+
       - name: Get Chez Scheme
         run: |
-          git clone --depth 1 https://github.com/cisco/ChezScheme
-          c:\msys64\usr\bin\bash -l -c "pacman -S --noconfirm tar make zip"
-          echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
-      - name: Configure and Build Chez Scheme
-        run: |
-          c:\msys64\usr\bin\bash -l -c "cd $env:PWD && cd ChezScheme && ./configure --threads && make"
+          curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip 
+          unzip chez.zip
+
       - name: Set Path
         run: |
-          $chez="$(pwd)\ChezScheme\ta6nt\bin\ta6nt"
+          $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
           $idris="$(pwd)\Idris2\.idris2"
           $idirs2lsp="$(pwd)\idris2-lsp"
           $output="$(pwd)\output"
+          echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
           echo "::add-path::$chez"
           echo "::add-path::$idris\bin"
           echo "::set-env name=IDRIS_PREFIX::$idris"
@@ -52,6 +51,7 @@ jobs:
       - name: Test Scheme
         run: |
           scheme --version
+
       - name: Bootstrap and install
         run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && make bootstrap && make install"
       - name: Stage2 build and install
@@ -66,8 +66,8 @@ jobs:
           New-Item -ItemType directory -Name output/idris2-windows-nightly/chez
           New-Item -ItemType directory -Name output/idris2-windows-nightly/idris2
           Move-Item -Path configure.ps1 -Destination output/idris2-windows-nightly
-          Move-Item -Path ChezScheme/ta6nt/bin output/idris2-windows-nightly/chez
-          Move-Item -Path ChezScheme/ta6nt/boot output/idris2-windows-nightly/chez
+          Move-Item -Path chez-nightly/chez/bin output/idris2-windows-nightly/chez
+          Move-Item -Path chez-nightly/chez/boot output/idris2-windows-nightly/chez
           Move-Item -Path Idris2/.idris2 output/idris2-windows-nightly/idris2
           Move-Item -Path Idris2/bootstrap output/idris2-windows-nightly/idris2
           Move-Item -Path idris2-lsp output/idris2-windows-nightly/idris2-lsp
