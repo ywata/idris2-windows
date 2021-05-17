@@ -34,8 +34,8 @@ jobs:
           unzip chez.zip
       - name: Set Chez Path
         run: |
-          chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
-          output="$(pwd)/output"
+          $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
+          $output="$(pwd)/output"
           echo "::add-path::$chez"
       - name: Test Scheme
         run: |
