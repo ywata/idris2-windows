@@ -52,10 +52,10 @@ jobs:
         run: |
           scheme --version
       - name: Bootstrap and install
-        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lsp/Idris2 && make bootstrap && make install"
+        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lsp/Idris2 && ls -l && make bootstrap && make install"
       - name: 2nd build
         run: |
-          c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lspIdris2 && rm -rf build && make all install install-api"
+          c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lsp/Idris2 && rm -rf build && make all install install-api"
       - name: Build dris2-lsp
         run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lsp && make"
       - name: Prepare the data to compression
