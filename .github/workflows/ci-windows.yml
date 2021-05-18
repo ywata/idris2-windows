@@ -69,7 +69,7 @@ jobs:
           Move-Item -Path idris2-lsp/Idris2/bootstrap output/idris2-windows-nightly/idris2
           Move-Item -Path idris2-lsp output/idris2-windows-nightly/idris2-lsp
           Compress-Archive -Path output/idris2-windows-nightly -DestinationPath output/idris2-windows-nightly.zip
-      - name: Get current date
+      - name: Get date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Create Release
