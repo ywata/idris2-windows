@@ -62,16 +62,17 @@ jobs:
         run: |
           New-Item -ItemType directory -Name output/idris2-windows-nightly/chez
           New-Item -ItemType directory -Name output/idris2-windows-nightly/idris2
+          New-Item -ItemType directory -Name output/idris2-windows-nightly/idris2-lsp
           Move-Item -Path configure.ps1 -Destination output/idris2-windows-nightly
           Move-Item -Path chez-nightly/chez/bin output/idris2-windows-nightly/chez
           Move-Item -Path chez-nightly/chez/boot output/idris2-windows-nightly/chez
           Move-Item -Path idris2-lsp/Idris2/.idris2 output/idris2-windows-nightly/idris2
           Move-Item -Path idris2-lsp/Idris2/bootstrap output/idris2-windows-nightly/idris2
-          Move-Item -Path idris2-lsp output/idris2-windows-nightly/idris2-lsp
+          Move-Item -Path idris2-lsp/build/exec output/idris2-windows-nightly/idris2-lsp
           Compress-Archive -Path output/idris2-windows-nightly -DestinationPath output/idris2-windows-nightly.zip
       - name: Get date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
 
       - name: Create Release
         id: create_release
