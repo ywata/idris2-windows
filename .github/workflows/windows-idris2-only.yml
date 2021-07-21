@@ -72,7 +72,7 @@ jobs:
           Compress-Archive -Path output/idris2-windows -DestinationPath output/idris2-windows.zip
       - name: Get date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+        run: echo "::set-output name=date::$(date +'%Y%m%d-%H%M')"
 
       - name: Create Release
         id: create_release
