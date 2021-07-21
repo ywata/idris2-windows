@@ -33,7 +33,7 @@ jobs:
         run: |
           git clone https://github.com/ywata/Idris2
           cd Idris2 && git checkout -b windows-fdopen origin/windows-fdopen
-      - Name: Get Chez Scheme
+      - name: Get Chez Scheme
         run: |
           curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip 
           unzip chez.zip
