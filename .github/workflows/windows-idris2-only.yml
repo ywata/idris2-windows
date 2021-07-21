@@ -29,10 +29,10 @@ jobs:
           git config --global core.autocrlf false
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Get dris2-lsp & its submodule
+      - name: Get Idris2
         run: |
-          git clone --depth 1 https://github.com/idris-community/idris2-lsp
-          cd idris2-lsp/Idris2 && git submodule init && git submodule update
+          git clone --depth 1 https://github.com/ywata/Idris2
+          cd Idris2 && git checkout -b windows-fdopen origin/windows-fdopen
       - name: Get Chez Scheme
         run: |
           curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip 
@@ -40,8 +40,7 @@ jobs:
       - name: Set Path
         run: |
           $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
-          $idris="$(pwd)\idris2-lsp\Idris2\.idris2"
-          $idirs2lsp="$(pwd)\idris2-lsp"
+          $idris="$(pwd)\Idris2\.idris2"
           $output="$(pwd)\output"
           echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
           echo "::add-path::$chez"
@@ -52,23 +51,17 @@ jobs:
         run: |
           scheme --version
       - name: Bootstrap and install
-        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lsp/Idris2 && ls -l && make bootstrap && make install"
+        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && ls -l && make bootstrap && make install"
       - name: 2nd build
         run: |
-          c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lsp/Idris2 && rm -rf build && make all install install-api"
-      - name: Build dris2-lsp
-        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lsp && make"
+          c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && rm -rf build && make all install install-api"
       - name: Prepare the data to compression
         run: |
           New-Item -ItemType directory -Name output/idris2-windows/chez
           New-Item -ItemType directory -Name output/idris2-windows/idris2
-          New-Item -ItemType directory -Name output/idris2-windows/idris2-lsp
           Move-Item -Path configure.ps1 -Destination output/idris2-windows
           Move-Item -Path chez-nightly/chez/bin output/idris2-windows/chez
           Move-Item -Path chez-nightly/chez/boot output/idris2-windows/chez
-          Move-Item -Path idris2-lsp/Idris2/.idris2 output/idris2-windows/idris2
-          Move-Item -Path idris2-lsp/Idris2/bootstrap output/idris2-windows/idris2
-          Move-Item -Path idris2-lsp/build/exec output/idris2-windows/idris2-lsp
           Compress-Archive -Path output/idris2-windows -DestinationPath output/idris2-windows.zip
       - name: Get date
         id: date
