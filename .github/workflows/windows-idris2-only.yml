@@ -54,7 +54,7 @@ jobs:
         run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && ls -l && make bootstrap && make install"
       - name: 2nd build
         run: |
-          c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && rm -rf build && make all install install-api"
+          c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && rm -rf build && make all install"
       - name: Prepare the data to compression
         run: |
           New-Item -ItemType directory -Name output/idris2-windows/chez
