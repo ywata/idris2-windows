@@ -62,6 +62,10 @@ jobs:
           Move-Item -Path configure.ps1 -Destination output/idris2-windows
           Move-Item -Path chez-nightly/chez/bin output/idris2-windows/chez
           Move-Item -Path chez-nightly/chez/boot output/idris2-windows/chez
+
+          Move-Item -Path Idris2/.idris2 output/idris2-debug/
+          Move-Item -Path Idris2/bootstrap output/idris2-debug/
+          
           Compress-Archive -Path output/idris2-windows -DestinationPath output/idris2-windows.zip
       - name: Get date
         id: date
