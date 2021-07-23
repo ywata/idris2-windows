@@ -1,39 +1,56 @@
-#
-# Make sure that the configuration is placed in the root directory!
-#
+# The script assumes the file exits in .idris2/bin
+# To run this script
+# Powershell.exe -ExecutionPolicy Bypass -File this.ps1
 
-$configBuilder = [System.Text.StringBuilder]""
 
 $idrisVersion = "0.4.0"
 
-$rootPath = $pwd.Path
-# PATH
-$idrisPath = $rootPath + "\.idris2"
-# IDRIS2_DATA
-$idrisData = $idrisPath + "\idris2-" + $idrisVersion + "\support"
-# IDRIS2_LIBS
-$idrisLibs = $idrisPath + "\idris2-" + $idrisVersion + "\lib"
-# IDRIS2_PREFIX
-$idrisPrefix = $idrisPath
-# IDRIS2_PATH
-$idrisAppPath = $idrisPath + "\bin\idris2_app"
+# The script assumes sha256sum exists in $hashBin
+$hashBin = "C:\msys64\usr\bin"
 
-# Add these to PATH
-$schemePath = $rootPath + "\chez\bin\ta6nt"
-$idrisBinPath = $idrisPath + "\bin"
+$scriptDirPath = $PSScriptRoot
+$archiveRoot = (get-item $scriptDirPath).parent.parent.FullName
+$idrisPrefix = $archiveRoot + "\.idris2"
+$idrisBinPath = $idrisPrefix + "\bin"
+# $idrisData is not used at thismoment
+#$idrisData = $idrisPrefix + "/idris2-" + $idrisVersion
+$schemePath  = $archiveRoot + "\chez\bin\ta6nt"
 
-[void]$configBuilder.AppendLine("@echo off")
-[void]$configBuilder.AppendLine("set PATH=$idrisAppPath;%PATH%")
-[void]$configBuilder.AppendLine("set PATH=$schemePath;%PATH%")
+# Create script contents. I with we have here document.
+function Idris2-Cmd-String {
+    param(
+	$appName
+    )
+    $idrisAppPath = $idrisBinPath + "\" + $appName + "_app\"
 
-[void]$configBuilder.AppendLine("rem set IDRIS2_PATH=$idrisPath")
-[void]$configBuilder.AppendLine("set IDRIS2_PREFIX=$idrisPrefix")
-[void]$configBuilder.AppendLine("rem set IDRIS2_LIBS=$idrisLibs")
-[void]$configBuilder.AppendLine("rem set IDRIS2_DATA=$idrisData")
-[void]$configBuilder.AppendLine("`"$schemePath/scheme.exe`" --program `"$($idrisAppPath + '\idris2.so')`" %*")
+    $configBuilder = [System.Text.StringBuilder]""
+    [void]$configBuilder.AppendLine("@echo off")
+    [void]$configBuilder.AppendLine("set PATH=$schemePath;%PATH%;" + $hashBin)
+    [void]$configBuilder.AppendLine("set PATH=$idrisAppPath;%PATH%")
+    [void]$configBuilder.AppendLine("set PATH=%PATH%;" + "C:\msys64\usr\bin")
+    [void]$configBuilder.AppendLine("set IDRIS2_PREFIX=$idrisPrefix")
+#    [void]$configBuilder.AppendLine("set IDRIS2_LIB=$idrisPrefix" + "\lib")
+    [void]$configBuilder.AppendLine("`"$schemePath/scheme.exe`" --script $idrisAppPath" + "/" + $appName + ".so" +  " %*")
+    Write-Output $configBuilder.ToString()
+}
 
-$outFile = $idrisBinPath + "\idris2.cmd"
+function Create-Idris2-Cmd {
+    param(
+	$Path,
+	$Contents
+    )
+    Set-Content -Path $Path -Value $Contents
+    Write-Output "The configuration was created in:"
+    Write-Output $path
+}
 
-Set-Content -Path $outFile -Value $configBuilder.ToString()
-Write-Output "The configuration was created in:"
-Write-Output $outFile
+
+# We consider _app is created by idris2 to store scheme object file.
+$apps = Get-ChildItem -Path *_app | % {$_.ToString()} | % {Split-Path -Path $_ -Leaf} | %{$_.SubString(0, $_.Length -4)}
+
+# apps contains base name without _app.
+$apps | %{
+  $cmd = Idris2-Cmd-String $_
+  Create-Idris2-Cmd -Path ($idrisBinPath + "\" + $_ + ".cmd") -Contents $cmd
+}
+
