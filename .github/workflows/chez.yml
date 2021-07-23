@@ -1,4 +1,4 @@
-name: Windows
+name: Archive ChezScheme
 on:
   push:
     branches:
