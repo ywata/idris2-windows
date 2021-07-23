@@ -61,7 +61,7 @@ jobs:
       - name: Prepare the data to compression
         run: |
           New-Item -ItemType directory -Name output/idris2-lsp-windows/chez
-          Move-Item -Path configure.ps1 -Destination output/idris2-lsp-windows
+          Move-Item -Path configure.ps1 -Destination output/idris2-lsp-windows/.idris2/bin
           Move-Item -Path chez-nightly/chez/bin output/idris2-lsp-windows/chez
           Move-Item -Path chez-nightly/chez/boot output/idris2-lsp-windows/chez
           Move-Item -Path idris2-lsp/.idris2 output/idris2-lsp-windows/
