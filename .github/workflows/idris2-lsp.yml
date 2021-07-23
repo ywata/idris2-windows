@@ -40,7 +40,7 @@ jobs:
       - name: Set Path
         run: |
           $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
-          $idris="$(pwd)\idris2-lsp\Idris2\.idris2"
+          $idris="$(pwd)\idris2-lsp\.idris2"
           $idirs2lsp="$(pwd)\idris2-lsp"
           $output="$(pwd)\output"
           echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
@@ -60,16 +60,17 @@ jobs:
         run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lsp && make"
       - name: Prepare the data to compression
         run: |
-          New-Item -ItemType directory -Name output/idris2-windows-nightly/chez
-          New-Item -ItemType directory -Name output/idris2-windows-nightly/idris2
-          New-Item -ItemType directory -Name output/idris2-windows-nightly/idris2-lsp
-          Move-Item -Path configure.ps1 -Destination output/idris2-windows-nightly
-          Move-Item -Path chez-nightly/chez/bin output/idris2-windows-nightly/chez
-          Move-Item -Path chez-nightly/chez/boot output/idris2-windows-nightly/chez
-          Move-Item -Path idris2-lsp/Idris2/.idris2 output/idris2-windows-nightly/idris2
-          Move-Item -Path idris2-lsp/Idris2/bootstrap output/idris2-windows-nightly/idris2
-          Move-Item -Path idris2-lsp/build/exec output/idris2-windows-nightly/idris2-lsp
-          Compress-Archive -Path output/idris2-windows-nightly -DestinationPath output/idris2-windows-nightly.zip
+          New-Item -ItemType directory -Name output/idris2-lsp-windows/chez
+          New-Item -ItemType directory -Name output/idris2-lsp-windows/idris2
+          New-Item -ItemType directory -Name output/idris2-lsp-windows/idris2-lsp
+          Move-Item -Path configure.ps1 -Destination output/idris2-lsp-windows
+          Move-Item -Path chez-nightly/chez/bin output/idris2-lsp-windows/chez
+          Move-Item -Path chez-nightly/chez/boot output/idris2-lsp-windows/chez
+          Move-Item -Path idris2-lsp/.idris2 output/idris2-lsp-windows/idris2
+          Move-Item -Path idris2-lsp/build/exec/idris2_lsp output/idris2-lsp-windows/.idris2/bin
+          Move-Item -Path idris2-lsp/build/exec/idris2_lsp.cmd output/idris2-lsp-windows/.idris2/bin
+          Move-Item -Path idris2-lsp/build/exec/idris2_lsp_app output/idris2-lsp-windows/.idris2/bin
+          Compress-Archive -Path output/idris2-lsp-windows -DestinationPath output/idris2-lsp-windows.zip
       - name: Get date
         id: date
         run: echo "::set-output name=date::$(date +'%Y%m%d')"
@@ -91,6 +92,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./output/idris2-windows-nightly.zip
-          asset_name: idris2-windows-nightly.zip
+          asset_path: ./output/idris2-lsp-windows.zip
+          asset_name: idris2-lsp-windows.zip
           asset_content_type: application/zip
