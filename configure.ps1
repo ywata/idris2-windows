@@ -44,6 +44,7 @@ function Create-Idris2-Cmd {
     Write-Output $path
 }
 
+Write-Host "We expect sha256sum or its replacement is in " $hashBin
 
 # We consider _app is created by idris2 to store scheme object file.
 $apps = Get-ChildItem -Path *_app | % {$_.ToString()} | % {Split-Path -Path $_ -Leaf} | %{$_.SubString(0, $_.Length -4)}
