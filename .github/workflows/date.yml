@@ -1,5 +1,5 @@
 on: [push, pull_request]
-name: build
+name: Date test
 jobs:
   build:
     name: Example
