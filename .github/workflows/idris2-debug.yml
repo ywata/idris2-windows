@@ -1,4 +1,4 @@
-name: Windows
+name: Archive latest Idris2 with ChezScheme
 on:
   push:
     branches:
@@ -32,7 +32,6 @@ jobs:
       - name: Get Idris2
         run: |
           git clone https://github.com/ywata/Idris2
-          cd Idris2 && git checkout -b windows-fdopen origin/windows-fdopen
       - name: Get Chez Scheme
         run: |
           curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip 
