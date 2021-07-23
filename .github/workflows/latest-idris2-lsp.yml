@@ -1,0 +1,97 @@
+name: idris2-lsp with latest Idris2
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Manually trigger build of Idris 2.'
+        required: true
+env:
+  MSYSTEM: MINGW64
+  MSYS2_PATH_TYPE: inherit
+  SCHEME: scheme
+  CC: gcc
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Init
+        run: |
+          git config --global core.autocrlf false
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Get latest Idris2
+        run: |
+	git clone --depth 1 https://github.com/idris-lang/Idris2
+      - name: Get dris2-lsp
+        run: |
+          git clone --depth 1 https://github.com/idris-community/idris2-lsp
+      - name: Get Chez Scheme
+        run: |
+          curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip 
+          unzip chez.zip
+      - name: Test Scheme
+        run: |
+          scheme --version
+      - name: Set Path
+        run: |
+          $chez="$(pwd)\chez-nightly\chez\bin\ta6nt"
+          $idris="$(pwd)\Idris2\.idris2"
+          $idirs2lsp="$(pwd)\idris2-lsp"
+          $output="$(pwd)\output"
+          echo "::set-env name=PWD::$(c:\msys64\usr\bin\cygpath -u $(pwd))"
+          echo "::add-path::$chez"
+          echo "::add-path::$idris\bin"
+          echo "::set-env name=IDRIS_PREFIX::$idris"
+          echo "::set-env name=PREFIX::$(c:\msys64\usr\bin\cygpath -u $idris)"
+      - name: Bootstrap and install
+        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && ls -l && make bootstrap && make install"
+      - name: 2nd build
+        run: |
+          c:\msys64\usr\bin\bash -l -c "cd $env:PWD/Idris2 && rm -rf build && make all install install-api"
+      - name: Build dris2-lsp
+        run: c:\msys64\usr\bin\bash -l -c "cd $env:PWD/idris2-lsp && make"
+      - name: Prepare the data to compression
+        run: |
+          New-Item -ItemType directory -Name output/idris2-lsp-windows/chez
+          Move-Item -Path chez-nightly/chez/bin output/idris2-lsp-windows/chez
+          Move-Item -Path chez-nightly/chez/boot output/idris2-lsp-windows/chez
+          Move-Item -Path Idris2/.idris2 output/idris2-lsp-windows/
+          Move-Item -Path configure.ps1 -Destination output/idris2-lsp-windows/.idris2/bin
+          Move-Item -Path idris2-lsp/build/exec/idris2-lsp output/idris2-lsp-windows/.idris2/bin
+          Move-Item -Path idris2-lsp/build/exec/idris2-lsp.cmd output/idris2-lsp-windows/.idris2/bin
+          Move-Item -Path idris2-lsp/build/exec/idris2-lsp_app output/idris2-lsp-windows/.idris2/bin
+          Compress-Archive -Path output/idris2-lsp-windows -DestinationPath output/idris2-lsp-windows.zip
+      - name: Get date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.date.outputs.date }}
+          release_name: Release ${{ steps.date.outputs.date }}
+          draft: true
+          prerelease: true
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./output/idris2-lsp-windows.zip
+          asset_name: idris2-lsp-windows.zip
+          asset_content_type: application/zip
