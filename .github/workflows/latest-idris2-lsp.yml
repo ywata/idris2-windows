@@ -30,8 +30,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Get latest Idris2
-        run: |
-	git clone --depth 1 https://github.com/idris-lang/Idris2
+        run: git clone --depth 1 https://github.com/idris-lang/Idris2
       - name: Get dris2-lsp
         run: git clone --depth 1 https://github.com/idris-community/idris2-lsp
       - name: Get Chez Scheme
