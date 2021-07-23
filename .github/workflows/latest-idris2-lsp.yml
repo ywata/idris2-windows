@@ -33,8 +33,7 @@ jobs:
         run: |
 	git clone --depth 1 https://github.com/idris-lang/Idris2
       - name: Get dris2-lsp
-        run: |
-          git clone --depth 1 https://github.com/idris-community/idris2-lsp
+        run: git clone --depth 1 https://github.com/idris-community/idris2-lsp
       - name: Get Chez Scheme
         run: |
           curl -L https://github.com/ywata/idris2-windows/releases/download/refs%2Fheads%2Fmain/chez-nightly.zip --output chez.zip 
