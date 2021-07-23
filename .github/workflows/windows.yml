@@ -1,4 +1,4 @@
-name: Windows
+name: Archive idris2 and idris2-lsp
 on:
   push:
     branches:
